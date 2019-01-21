@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<!--[if lte IE 6]>
+<html class="preIE7 preIE8 preIE9">
+<![endif]-->
+<!--[if IE 7]>
+<html class="preIE8 preIE9">
+<![endif]-->
+<!--[if IE 8]>
+<html class="preIE9">
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<html>
+<!--<![endif]-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Snip3D</title>
+    <meta name="author" content="P3DGames.Net">
+    <meta name="description" content="Interface for accessing the Decentralized Ethereum Smart Contract Snip3D.">
+    <meta name="keywords" content="keywords,here">
+
+    <!-- Bootstrap CSS-->
+    <link href="https://bootswatch.com/4/solar/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .tooltip-inner {
+            max-width: 350px;
+        }
+
+        .popover {
+            width: 390px;
+            max-width: 999px;
+            height: auto;
+        }
+
+        .tool-tip [disabled] {
+            pointer-events: none;
+        }
+    </style>
+    <link href="assets/custom.css" rel="stylesheet">
+    <link href="node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- Custom fonts-->
+    <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://brick.a.ssl.fastly.net/Montserrat:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/toastr/build/toastr.min.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <style>
+        /* Show it is fixed to the top */
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            padding-top: 75px;
+        }
+
+        td.dt-nowrap {
+            white-space: nowrap
+        }
+
+        td.dt-center, th.dt-center {
+            text-align: center !important;
+        }
+    </style>
+</head>
+<body class="">
+<div id="loading-animation">
+    <img src="loading.gif">
+    <br/>
+    Loading...
+</div>
+<nav class="navbar navbar-expand-lg  navbar-dark bg-dark fixed-top main-nav">
+    <a class="navbar-brand" href="/">Snip3D OG</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-link-game" class="nav-item">
+                <a class="nav-link" href="/sniped/sniped/?ref=0x1fde082e77b30e92d08edc9222c327f5c9e739eb">Snip3D OG</a>
+            </li>
+            <li class="nav-link-game" class="nav-item">
+                <a class="nav-link" href="/sniped/sniped2/?ref=0x1fde082e77b30e92d08edc9222c327f5c9e739eb">Snip3D 2.0</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More Links</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown03">
+                    <h3 class="dropdown-header">Team JUST Sites</h3>
+                    <a class="dropdown-item" href="https://discord.gg/DbapvnH">Discord</a>
+                    <a class="dropdown-item" href="https://p3d-bot.github.io/buy.html?masternode=0x315cea9d9c15b126a96dbaea663b5eb538fdd090">P3D Exchange</a>
+                    <a class="dropdown-item" href="https://exitscam.me/130">F3D Short Game</a>
+                    <a class="dropdown-item" href="https://exitscam.me/130">F3D Long Game</a>
+                </div>
+            </li>
+        </ul>
+        <div class="mt-2" style="padding-right:8px;">
+            <div id="txt-network" style="width:150px;display: inline-block;">Network: <b>Loading...</b></div>
+            <button type="button"
+                    class="btn btn-primary btn-sm"
+                    onclick="window.open('https://etherscan.io/address/0x6d534b48835701312ebc904d4b37e54d4f7d039f#code', '_blank');"
+                    style="margin-right:5px;">
+                View Contract
+            </button>
+            <button type="button"
+                    class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                    style="margin-right:5px;">
+                View Instructions
+            </button>
+            <button type="button"
+                    class="btn btn-primary btn-sm btn-donate">
+                Donate 0.1 ETH
+            </button>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-xl-3">
+            <div class="row mb-2">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body text-center" style="padding:0px;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <table style="width:100%;" class="text-center">
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-primary" style="font-size:11px;width:25%;">
+                                                <div data-toggle="tooltip" data-placement="top" data-html="true" title="" style="line-height: 16px;"
+                                                     data-original-title="The number of soldiers you currently have.">
+                                                    Soldiers<br/><b><span id="game-soldiers" class="text-primary" style="font-size:18px;">0</span></b>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <h3 style="font-weight:bold;margin-bottom:2px;">Player</h3>
+                                            </td>
+                                            <td class="text-primary" style="font-size:11px;width:25%;">
+                                                <div data-toggle="tooltip" data-placement="top" data-html="true" title="" style="line-height: 16px;"
+                                                     data-original-title="The number of bullets you currently have.">
+                                                    <b>Bullets<br/><span id="game-bullets" class="text-primary" style="font-size:18px;">0</span></b>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-center">
+                <div class="card-body" style="padding:20px;">
+                    <img src="assets/img/battlefield-4-sniper.png" style="width:140px;">
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-body">
+                    <table class=" text-left" style="width:100%;font-size:12px;">
+                        <tbody>
+                        <tr>
+                            <td class="player-details-earning-title" style="width:70px;">Wallet:</td>
+                            <td id="player-details-address" style="text-align: right;" colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td class="player-details-earning-title">Vanity:</td>
+                            <td id="player-details-vanity" style="text-align: right" colspan="2"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class=" text-left" style="width:100%;font-size:12px;">
+                        <tbody>
+                        <tr>
+                            <td class="player-details-earning-title">Blocks Until Aimed Shot:</td>
+                            <td id="game-blocks-till-target" style="text-align: right">0</td>
+                        </tr>
+                        <tr>
+                            <td class="player-details-earning-title">Blocks Until Random Shot:</td>
+                            <td id="game-blocks-till-random" style="text-align: right">0</td>
+                        </tr>
+                        <tr>
+                            <td class="player-details-earning-title">Pending Divs:</td>
+                            <td id="game-player-divs" style="text-align: right">0 ETH</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div data-toggle="tooltip" data-placement="top" data-html="true" title="Join the battle today!">
+                                <button id="game-send-in-soldier" type="button" class="btn btn-sm btn-primary" style="width:100%">Train Soldier</button>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div id="game-shoot-random-div" class="tool-tip" data-toggle="tooltip" data-placement="top" data-html="true">
+                                <button id="game-shoot-random" type="button" class="btn btn-sm btn-primary" style="width:100%">Shoot Random</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-body">
+                    <table class=" text-center" style="width:100%;font-size:12px;">
+                        <tbody>
+                        <tr>
+                            <td><h5 class="card-title">Referral Link</h5></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class=" text-left" style="width:100%;font-size:12px;">
+                        <tbody>
+                        <tr>
+                            <td style="text-align: center; font-size:13px;">
+                                Share your referral link and earn a bonus. Each time someone trains a soldier with you ref link, you receive 0.001 ETH. It can add up fast.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;padding-top:10px;padding-bottom:10px;">
+                                <a style="font-size:14px;" href="" id="masternode-link-address"></a>
+                                <input type="text" id="masternode-hidden" style="position:fixed; left:-9999px;top:-9999px; ">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm btn-block btn-copy-to-clipboard">Click to Copy</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-body">
+                    <h5 class="card-title">Vanity Name <span style="float:right;font-size:11px;font-weight:normal;">
+                <a href="https://etherscan.io/address/0xD60d353610D9a5Ca478769D371b53CEfAA7B6E4c#code">Team JUST Playerbook Contract</a>
+                    </span>
+                        </span>
+                    </h5>
+                    <div class="row">
+                        <div class="col-7">
+                            Name requirements:
+                            <ul style="-webkit-padding-start: 20px;font-size:11px;">
+                                <li>Must be unique.</li>
+                                <li>Can be 32 characters or fewer.</li>
+                                <li>A to Z or 0 to 9 characters.</li>
+                                <li>Name must contain numbers and letters.</li>
+                                <li>No special characters.</li>
+                                <li>No more than one space between characters.</li>
+                            </ul>
+                        </div>
+                        <div class="col-5" style="font-size:11px;">
+                            <p>If the transaction fails, one of these requirements were not met.</p>
+                            <p>Names are yours permanently (for vanity URLS). But only your most recent name will show up on the leader board/game UI.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-0">
+                        <div class="form-inline">
+                            <div class="input-group" style="width:100%;">
+                                <input type="text" class="form-control" id="game-vanity-name" placeholder="Enter Name Here">
+                                <div class="input-group-append" id="button-addon4">
+                                    <button id="game-buy-vanity" class="btn btn-xs btn-primary" type="button">Buy Name</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9">
+            <div class="row mb-2">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body text-center" style="padding:0px;font-weight:bold;">
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-6 text-primary" style="font-size:13px;">
+                                    <table style="width:100%;" class="text-center">
+                                        <tr>
+                                            <td class="text-primary" style="font-size:11px;width:50%;">
+                                                <div data-toggle="tooltip" data-placement="top" data-html="true" style="line-height: 16px;"
+                                                     title="The current number of P3D owned by the Snip3D smart contract.">
+                                                    P3D Balance<br/><span id="game-p3d-balance" style="font-size:18px;">0</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-primary" style="font-size:11px;width:50%;">
+                                                <!--<div data-toggle="tooltip" data-placement="top" data-html="true" style="line-height: 16px;"-->
+                                                <!--title="The total number of soldiers on the battlefield.">-->
+                                                <!--Total Soldiers<br/><span id="game-total-soldiers" style="font-size:18px;">0</span>-->
+                                                <!--</div>-->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-xl-6 col-lg-12"><h3 class="text-center" style="font-weight:bold;margin-bottom:2px;">Battlefield</h3></div>
+                                <div class="col-xl-3 col-lg-6 text-primary" style="font-size:13px;">
+                                    <table style="width:100%;" class="text-center">
+                                        <tr>
+                                            <td class="text-primary" style="font-size:11px;width:50%;">
+                                                <div id="game-send-refund-div" class="tool-tip" data-toggle="tooltip" data-placement="top" data-html="true">
+                                                    <button id="game-send-refund" type="button" style="height:25px; line-height: 0.5;margin-top:3px;" class="btn btn-sm btn-primary">Refund</button>
+                                                </div>
+                                            </td>
+                                            <td class="text-primary" style="font-size:11px;width:50%;">
+                                                <div data-toggle="tooltip" data-placement="top" data-html="true" style="line-height: 16px;"
+                                                     title="The current amount of ETH in the refund pot. Once it hits 0.1 ETH, you can trigger a refund.">
+                                                    Refund Pot<br/><span id="game-refund-pot" style="font-size:18px;">0</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="players" class="text-center soldier-container row">
+                <div class="mt-5" style="display:block;margin:auto;text-align: center;padding:20px;">
+                    <img src="assets/img/loading.gif" style="width:50px;text-align: center;">
+                    <h5>Loading battlefield...</h5>
+                </div>
+            </div>
+
+            <!--footer-->
+
+            <footer id="myFooter" class="mt-4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h2 class="logo" style="margin-top:-15px;"><a href="#">Snip3D</a></h2>
+                        </div>
+                        <div class="col-sm-3">
+                            <h5 style="margin-top:0px;">More Games</h5>
+                            <ul>
+                                <li><a href="https://sacrific3d.p3dgames.net/">Sacrific3D</a></li>
+                                <li><a href="https://slaughter3d.p3dgames.net/">Slaughter3D</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-3">
+                            <h5 style="margin-top:0px;">Team JUST Stuff</h5>
+                            <ul>
+                                <li><a href="https://discord.gg/DbapvnH">Community Chat</a></li>
+                                <li><a href="https://powh.io/?masternode=0x315cea9d9c15b126a96dbaea663b5eb538fdd090">powh.io</a></li>
+                                <li><a href="https://p3d-bot.github.io/buy.html?masternode=0x315cea9d9c15b126a96dbaea663b5eb538fdd090">Backup P3D Exchange</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="button" class="btn btn-primary btn-donate">Donate 0.1 ETH</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-copyright">
+                    <p>This is a game and for entertainment purposes only. Do not treat this as an investment.</p>
+                </div>
+            </footer>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Game Instructions</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h4>How to Play</h4>
+                            <div style="display: inline-block;">
+                                <ul style="text-align: left;font-size:14px;list-style-type: none;">
+                                    <li>Step 1: Prepare a soldier for 0.1ETH</li>
+                                    <li>Step 2: Wait the required block time.</li>
+                                    <li>Step 3: Start shooting enemies.</li>
+                                    <li>Step 4: Collect divs and battle more enemies.</li>
+                                </ul>
+                            </div>
+                            <h4>Game Details</h4>
+                            <div style="display: inline-block;width:400px;margin-left:30px;">
+                                <ul style="text-align: left;font-size:14px;">
+                                    <li>Prepare a Soldier: 1 soldier with 1 bullet.</li>
+                                    <li>Block Wait Times:
+                                        <ul>
+                                            <li>Random Shot: 200 Blocks</li>
+                                            <li>Targeted Shot: 800 Blocks</li>
+                                        </ul>
+                                    </li>
+                                    <li>One soldier dies each time another player shoots.</li>
+                                    <li>If one of your soldiers die, you keep the bullet from that soldier if they had one remaining.</li>
+                                    <li>When a soldier dies, divs are given to the survivors and the dead soldier is added to the refund line.</li>
+                                    <li>One time self-kill protection. If you own more than one soldier, a random shot can kill your own soldiers. Be careful.</li>
+                                    <li>Div's are disbursed back to wallets automatically.</li>
+                                    <li>Chat in the discord to strategize. Don't piss off the wrong person!</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="node_modules/bignumber.js/bignumber.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/moment/min/moment.min.js"></script>
+    <script src="node_modules/toastr/build/toastr.min.js"></script>
+    <script src="assets/main-obfu.js"></script>
+    <script>
+        window.addEventListener('load', async () => {
+            //document.getElementById('<?PHP echo $GameMenuID; ?>').classList.add('active');
+            let path = window.location.pathname, id;
+            // switch (path) {
+            //     case '/shootouts/':
+            //         document.getElementById('nav-link-shootouts').classList.add('active');
+            //         break;
+            //     case '/refunds/':
+            //         document.getElementById('nav-link-refunds').classList.add('active');
+            //         break;
+            //     case '/contract/':
+            //         document.getElementById('nav-link-contract').classList.add('active');
+            //         break;
+            //     default:
+            //         document.getElementById('nav-link-game').classList.add('active');
+            //         break;
+            // }
+
+            if (window.ethereum) {
+                window.web3 = new Web3(ethereum);
+                try {
+                    await ethereum.enable();
+                    Game.start(web3, toastr);
+                } catch (error) {
+                    $(`
+                        <div class="alert alert-info" role="alert">
+                            <h4 class="alert-heading">You're not using MetaMask.</h4>
+                            <p>You denied access to your MetaMask/Ethereum wallet. Without access to your wallet, you will not be able to play Snip3D.</p>
+                            <hr>
+                            <p class="mb-0">If you would like lean about MetaMask Wallet, check out <a href="https://metamask.io/" target="_blank">MetaMask.io</a></p>
+                        </div>`).insertBefore('#players');
+                    window.web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/cb5a8ce2445945099d5927ab6ae5ad2a'));
+                    Game.start(web3, toastr);
+                }
+            }
+            else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+                Game.start(web3, toastr);
+            }
+            else {
+                $(`<div class="alert alert-info" role="alert">
+                            <h4 class="alert-heading">You're not using MetaMask.</h4>
+                            <p>You denied access to your MetaMask/Ethereum wallet. Without access to your wallet, you will not be able to play Snip3D.</p>
+                            <hr>
+                            <p class="mb-0">If you would like lean about MetaMask Wallet, check out <a href="https://metamask.io/" target="_blank">MetaMask.io</a></p>
+                        </div>`).insertBefore('#players');
+                window.web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/cb5a8ce2445945099d5927ab6ae5ad2a'));
+                Game.start(web3, toastr);
+            }
+        });
+    </script>
+</div>
+</body>
+</html>
