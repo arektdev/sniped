@@ -1034,10 +1034,11 @@ var Game = {
                     disabled = 'disabled';
                     toolTip = 'Dont shoot yourself!!';
                 }
-                //console.log('Formation: ' + formation);
-                vanity = await this._PlayerbookConversion(formation);
-                //console.log('Vanity: ' + vanity + ' ----------------------------------------------------');
-                playerStr = `
+                console.log('Formation: ' + formation);
+                if(formation!=='0xe01096995C6069d732710d8244E392181E2e0edB') {
+                    vanity = await this._PlayerbookConversion(formation);
+                    //console.log('Vanity: ' + vanity + ' ----------------------------------------------------');
+                    playerStr = `
                             <div class="player-item col-lg-2" style="text-align: center;font-size:20px;margin-bottom:10px;">
                                  <div class="card" style="height:auto; width: 100%;">
                                       <div class="card-body text-center">
@@ -1050,10 +1051,11 @@ var Game = {
                                  </div>
                             </div>
                             `;
-                //console.log(playerStr);
-                $('#players').append(playerStr);
-                $('[data-toggle="tooltip"]').tooltip();
-                $('[data-toggle="tooltip"]').tooltip();
+                    //console.log(playerStr);
+                    $('#players').append(playerStr);
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
             }
         }
         catch (error) {
@@ -1115,19 +1117,20 @@ var Game = {
         console.log('Player Divs: ' + web3.fromWei(result, 'ether').toFixed(4) + ' ETH');
     },
     _contractEventWatchers: function () {
-        window.sniped.snipedTokenContract.death(function (error, result) {
-            if (result == window.sniped.web3.eth.accounts[0]) {
-                window.sniped.toastr.success('One of your soldiers just got killed!');
-                console.log('One of your soldiers just got killed!');
-            }
-            else {
-                window.sniped._PlayerbookConversion(result, function (name) {
-                    console.log(result);
-                    window.sniped.toastr.success(name + ' just got killed.');
-                    console.log(name + ' just got killed.');
-                }, window.sniped);
-            }
-        });
+        // window.sniped.snipedTokenContract.death(async function (error, result) {
+        //     if (result == window.sniped.web3.eth.accounts[0]) {
+        //         window.sniped.toastr.success('One of your soldiers just got killed!');
+        //         console.log('One of your soldiers just got killed!');
+        //     }
+        //     else {
+        //         console.log(result);
+        //         let vanity = await window.sniped._PlayerbookConversion(result);
+        //         console.log(vanity);
+        //         window.sniped.toastr.success(vanity + ' just got killed.');
+        //         console.log(vanity + ' just got killed.');
+        //
+        //     }
+        // });
         window.sniped.snipedTokenContract.semiShot(function (error, result) {
             console.log(result);
             if (result == window.sniped.web3.eth.accounts[0]) {
@@ -1284,7 +1287,7 @@ var Game = {
                 await that._blocksTillRandomShoot();
                 await that._numberOfSoldiers();
                 await that._numberOfBullets();
-                await this._vaultBalance();
+                await that._vaultBalance();
                 await that._p3dBalance();
                 await that._refundPot();
                 await that._playerDivs();

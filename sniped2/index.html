@@ -448,22 +448,6 @@
     <script src="assets/main-obfu.js"></script>
     <script>
         window.addEventListener('load', async () => {
-            //document.getElementById('<?PHP echo $GameMenuID; ?>').classList.add('active');
-            let path = window.location.pathname, id;
-            // switch (path) {
-            //     case '/shootouts/':
-            //         document.getElementById('nav-link-shootouts').classList.add('active');
-            //         break;
-            //     case '/refunds/':
-            //         document.getElementById('nav-link-refunds').classList.add('active');
-            //         break;
-            //     case '/contract/':
-            //         document.getElementById('nav-link-contract').classList.add('active');
-            //         break;
-            //     default:
-            //         document.getElementById('nav-link-game').classList.add('active');
-            //         break;
-            // }
 
             if (window.ethereum) {
                 window.web3 = new Web3(ethereum);
