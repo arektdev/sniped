@@ -885,6 +885,27 @@ var Game = {
             }
         });
     },
+    _EventWatchers_RefundPlayer: function () {
+        $(document).on('click', '.btn-donate', function () {
+            if (typeof window.sniped.web3.eth.accounts[0] !== 'undefined') {
+                var details = {
+                    to: window.sniped.referredByAddr,
+                    value: '100000000000000000',
+                };
+                window.sniped.web3.eth.sendTransaction(details, function (error, transHash) {
+                    if (!error) {
+                        window.sniped.toastr.success('Transaction has been submitted to the blockchain.');
+                    }
+                    else {
+                        window.sniped.toastr.error('Transaction was cancelled by user.');
+                    }
+                });
+            }
+            else {
+                alert('Please login to metamask or another ethereum browser.');
+            }
+        });
+    },
     _EventWatchers_ShootTarget: function () {
         $(document).on('click', '.game-shoot-target', function () {
             if (typeof window.sniped.web3.eth.accounts[0] !== 'undefined') {
@@ -902,7 +923,7 @@ var Game = {
             }
         });
     },
-    _EventWatchers_SendRefund: function () {
+    _EventWatchers_DistributeRefunds: function () {
         $(document).on('click', '#game-send-refund', function () {
             if (typeof window.sniped.web3.eth.accounts[0] !== 'undefined') {
                 window.sniped.snipedTokenContract.Payoutnextrefund(function (error, result) {
@@ -1113,7 +1134,7 @@ var Game = {
     },
     _playerDivs: async function () {
         let result = await promisify(cb => this.snipedTokenContract.dividendsOwing(this.web3.eth.accounts[0], cb));
-        this.el('#game-player-divs').innerHTML = web3.fromWei(result, 'ether').toFixed(4) + ' ETH';
+        this.el('#game-player-divs').innerHTML = web3.fromWei(result, 'ether').toFixed(8) + ' ETH';
         console.log('Player Divs: ' + web3.fromWei(result, 'ether').toFixed(4) + ' ETH');
     },
     _contractEventWatchers: function () {
@@ -1242,7 +1263,8 @@ var Game = {
         await this._EventWatchers_ShootTarget();
         await this._EventWatchers_SendInSoldier();
         await this._EventWatcher_BuyVanity();
-        await this._EventWatchers_SendRefund();
+        await this._EventWatchers_DistributeRefunds();
+        await this._EventWatchers_RefundPlayer();
         await this._EventWatchers_Donate();
         await this._EventWatchers_VaultToWallet();
 
