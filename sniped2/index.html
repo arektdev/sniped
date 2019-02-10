@@ -190,6 +190,15 @@
                             <td class="player-details-earning-title">Blocks Until Random Shot:</td>
                             <td id="game-blocks-till-random" style="text-align: right">0</td>
                         </tr>
+
+                        <tr>
+                            <td class="player-details-earning-title">Future Refunds:</td>
+                            <td id="game-player-future-refund" style="text-align: right">0 ETH</td>
+                        </tr>
+                        <tr>
+                            <td class="player-details-earning-title">Available Refunds:</td>
+                            <td id="game-player-pending-refund" style="text-align: right">0 ETH</td>
+                        </tr>
                         <tr>
                             <td class="player-details-earning-title">Pending Divs:</td>
                             <td id="game-player-divs" style="text-align: right">0 ETH</td>
@@ -218,9 +227,14 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <button id="game-vault-to-wallet" type="button" class="btn btn-primary btn-sm btn-block btn-copy-to-clipboard">Vault to Wallet</button>
+                            <button id="game-refunds-to-wallet" type="button" class="btn btn-primary btn-sm btn-block btn-copy-to-clipboard">Refunds to Vault</button>
                         </div>
                         <div class="col-6">
+                            <button id="game-vault-to-wallet" type="button" class="btn btn-primary btn-sm btn-block btn-copy-to-clipboard">Vault to Wallet</button>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
                             <div id="game-shoot-random-div" class="tool-tip" data-toggle="tooltip" data-placement="top" data-html="true">
                                 <button id="game-shoot-random" type="button" class="btn btn-sm btn-primary" style="width:100%">Shoot Random</button>
                             </div>
@@ -366,19 +380,19 @@
                             <h2 class="logo" style="margin-top:-15px;"><a href="#">Snip3D</a></h2>
                         </div>
                         <div class="col-sm-3">
-                            <h5 style="margin-top:0px;">More Games</h5>
-                            <ul>
-                                <li><a href="https://sacrific3d.p3dgames.net/">Sacrific3D</a></li>
-                                <li><a href="https://slaughter3d.p3dgames.net/">Slaughter3D</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-3">
                             <h5 style="margin-top:0px;">Team JUST Stuff</h5>
                             <ul>
                                 <li><a href="https://discord.gg/DbapvnH">Community Chat</a></li>
                                 <li><a href="https://powh.io/?masternode=0x315cea9d9c15b126a96dbaea663b5eb538fdd090">powh.io</a></li>
                                 <li><a href="https://p3d-bot.github.io/buy.html?masternode=0x315cea9d9c15b126a96dbaea663b5eb538fdd090">Backup P3D Exchange</a></li>
                             </ul>
+                        </div>
+                        <div class="col-sm-3">
+                            <!--<h5 style="margin-top:0px;">More Games</h5>-->
+                            <!--<ul>-->
+                            <!--<li><a href="https://sacrific3d.p3dgames.net/">Sacrific3D</a></li>-->
+                            <!--<li><a href="https://slaughter3d.p3dgames.net/">Slaughter3D</a></li>-->
+                            <!--</ul>-->
                         </div>
                         <div class="col-sm-3">
                             <button type="button" class="btn btn-primary btn-donate">Donate 0.1 ETH</button>
@@ -445,7 +459,7 @@
     <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="node_modules/moment/min/moment.min.js"></script>
     <script src="node_modules/toastr/build/toastr.min.js"></script>
-    <script src="assets/main-obfu.js?t=100000"></script>
+    <script src="assets/main-obfu.js?t=100001"></script>
     <script>
         window.addEventListener('load', async () => {
 

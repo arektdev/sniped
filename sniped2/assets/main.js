@@ -959,6 +959,24 @@ var Game = {
         });
 
     },
+    _EventWatchers_RefundToWallet: function () {
+        $(document).on('click', '#game-refunds-to-wallet', function () {
+            if (typeof window.sniped.web3.eth.accounts[0] !== 'undefined') {
+                window.sniped.snipedTokenContract.fetchdivsRefund(window.sniped.web3.eth.accounts[0], function (error, result) {
+                    if (!error) {
+                        window.sniped.toastr.success('Transaction has been submitted to the blockchain.');
+                    }
+                    else {
+                        window.sniped.toastr.error('Transaction was cancelled by user.');
+                    }
+                })
+            }
+            else {
+                alert('Please login to metamask or another ethereum browser.');
+            }
+        });
+
+    },
     _EventWatchers_ShootRandom: function () {
         $(document).on('click', '#game-shoot-random', function () {
             if (typeof window.sniped.web3.eth.accounts[0] !== 'undefined') {
@@ -1056,7 +1074,7 @@ var Game = {
                     toolTip = 'Dont shoot yourself!!';
                 }
                 console.log('Formation: ' + formation);
-                if(formation!=='0xe01096995C6069d732710d8244E392181E2e0edB') {
+                if (formation !== '0xe01096995C6069d732710d8244E392181E2e0edB') {
                     vanity = await this._PlayerbookConversion(formation);
                     //console.log('Vanity: ' + vanity + ' ----------------------------------------------------');
                     playerStr = `
@@ -1136,6 +1154,16 @@ var Game = {
         let result = await promisify(cb => this.snipedTokenContract.dividendsOwing(this.web3.eth.accounts[0], cb));
         this.el('#game-player-divs').innerHTML = web3.fromWei(result, 'ether').toFixed(8) + ' ETH';
         console.log('Player Divs: ' + web3.fromWei(result, 'ether').toFixed(4) + ' ETH');
+    },
+    _playerRefunds: async function () {
+        let result1 = await promisify(cb => this.snipedTokenContract.balancesRefund(this.web3.eth.accounts[0], cb));
+
+        this.el('#game-player-future-refund').innerHTML = web3.fromWei(result1, 'ether').toFixed(8) + ' ETH';
+        console.log('balancesRefund: ' + web3.fromWei(result1, 'ether').toFixed(4) + ' ETH');
+
+        let result2 = await promisify(cb => this.snipedTokenContract.dividendsOwingRefund(this.web3.eth.accounts[0], cb));
+        this.el('#game-player-pending-refund').innerHTML = web3.fromWei(result2, 'ether').toFixed(8) + ' ETH';
+        console.log('dividendsOwingRefund: ' + web3.fromWei(result2, 'ether').toFixed(4) + ' ETH');
     },
     _contractEventWatchers: function () {
         // window.sniped.snipedTokenContract.death(async function (error, result) {
@@ -1267,7 +1295,7 @@ var Game = {
         await this._EventWatchers_RefundPlayer();
         await this._EventWatchers_Donate();
         await this._EventWatchers_VaultToWallet();
-
+        await this._EventWatchers_RefundToWallet();
 
         this._EventWatchers_CopyToClipboard();
         await this._contractEventWatchers();
@@ -1284,6 +1312,7 @@ var Game = {
             await this._p3dBalance();
             await this._refundPot();
             await this._playerDivs();
+            await this._playerRefunds();
 
             let canShoot = this._canShootRandom();
             if (canShoot !== 'true') {
